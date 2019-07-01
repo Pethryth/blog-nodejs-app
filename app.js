@@ -23,12 +23,13 @@ console.log("Production? " + isProduction);
 if(isProduction){
     const options = {
         user: process.env.MONGOU,
-        pass: process.env.MONGOP
+        pass: process.env.MONGOP,
+        useNewUrlParser: true
     };
 
     mongoose.connect(process.env.MONGODB_URI, options);
 } else {
-  mongoose.connect('mongodb://localhost/portfolio');
+  mongoose.connect('mongodb://localhost/portfolio', {useNewUrlParser:true});
   mongoose.set('debug', true);
 }
 
