@@ -136,13 +136,27 @@ router.put('/:article', auth.required, function (req, res, next) {
                 req.article.tagList = req.body.article.tagList
             }
 
+            if (typeof req.body.article.image !== 'undefined') {
+                req.article.image = req.body.article.image
+            }
+
+            if (typeof req.body.article.categories !== 'undefined') {
+                const slugCategories = req.body.article.categories.map(category => category.slug);
+                Category.find({slug: {$in: slugCategories}}, function (err, categories) {
+                    if (!categories) {
+                        return res.sendStatus(401);
+                    }
+                    req.body.categories = categories;
+                });
+            }
+
             req.article.save().then(function (article) {
                 return res.json({article: article.toJSONFor(user)});
             }).catch(next);
-        } else {
-            return res.sendStatus(403);
-        }
-    });
+            } else {
+                return res.sendStatus(403);
+            }
+        });
 });
 
 // delete article
