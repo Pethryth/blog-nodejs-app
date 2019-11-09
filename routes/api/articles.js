@@ -132,12 +132,12 @@ router.put('/:article', auth.required, function (req, res, next) {
                 req.article.body = req.body.article.body;
             }
 
-            if (typeof req.body.article.tagList !== 'undefined') {
-                req.article.tagList = req.body.article.tagList
-            }
-
             if (typeof req.body.article.image !== 'undefined') {
                 req.article.image = req.body.article.image
+            }
+
+            if (typeof req.body.article.published !== 'undefined') {
+                req.article.published = req.body.article.published
             }
 
             if (typeof req.body.article.categories !== 'undefined') {
@@ -146,7 +146,7 @@ router.put('/:article', auth.required, function (req, res, next) {
                     if (!categories) {
                         return res.sendStatus(401);
                     }
-                    req.body.categories = categories;
+                    req.article.categories = categories;
                 });
             }
 

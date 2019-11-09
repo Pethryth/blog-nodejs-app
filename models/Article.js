@@ -38,7 +38,12 @@ ArticleSchema.methods.toJSONFor = function (user) {
         updatedAt: this.updatedAt,
         tagList: this.tagList,
         image: this.image,
-        categories: this.categories,
+        categories: this.categories.map(function (category) {
+                return {
+                    slug: category.slug,
+                    name: category.name
+                }
+        }),
         author: this.author.toProfileJSONFor(user)
     };
 };
