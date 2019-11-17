@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
+const sizeOf = require('image-size');
 const Article = mongoose.model('Article');
 const User = mongoose.model('User');
 const Category = mongoose.model('Category');
@@ -133,7 +134,13 @@ router.put('/:article', auth.required, function (req, res, next) {
             }
 
             if (typeof req.body.article.image !== 'undefined') {
-                req.article.image = req.body.article.image
+                req.article.image = req.body.article.image;
+                const base64Data = req.article.image.replace(/^data:image\/png;base64,/, '')
+                    .replace(/^data:image\/jpeg;base64,/, '');
+                const img = Buffer.from(base64Data, 'base64');
+                const dimensions = sizeOf(img);
+                req.article.imageWidth = dimensions.width;
+                req.article.imageHeight = dimensions.height;
             }
 
             if (typeof req.body.article.published !== 'undefined') {

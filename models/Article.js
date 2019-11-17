@@ -10,6 +10,8 @@ const ArticleSchema = new mongoose.Schema({
     published: Boolean,
     image: String,
     body: String,
+    imageWidth: String,
+    imageHeight: String,
     tagList: [{type: String}],
     categories: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}],
     author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
@@ -38,6 +40,8 @@ ArticleSchema.methods.toJSONFor = function (user) {
         updatedAt: this.updatedAt,
         tagList: this.tagList,
         image: this.image,
+        imageWidth: this.imageWidth,
+        imageHeight: this.imageHeight,
         categories: this.categories.map(function (category) {
                 return {
                     slug: category.slug,
